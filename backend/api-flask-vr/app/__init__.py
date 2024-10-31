@@ -19,11 +19,11 @@ def create_app():
 
     from .resources.produto import produto_bp
     from .resources.loja import loja_bp
-    # from .resources.produtoloja import produtoloja_bp
+    from .resources.produtoloja import produtoloja_bp
 
     app.register_blueprint(produto_bp)
     app.register_blueprint(loja_bp)
-    # app.register_blueprint(produtoloja_bp)
+    app.register_blueprint(produtoloja_bp)
 
     return app
 
