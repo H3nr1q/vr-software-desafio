@@ -4,7 +4,8 @@
 # Ignore __pycache__ directories
 __pycache__
 
-# Ignore all .pyc files in __pycache__ directories
-**/__pycache__/*.pyc
+# Ignore produtoloja.py file
+produtoloja.py
 
+# Ignore all .pyc files in __pycache__ directories
 **/__pycache__/*.pyc
