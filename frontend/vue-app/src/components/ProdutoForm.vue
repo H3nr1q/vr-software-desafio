@@ -26,14 +26,18 @@
             />
           </div>
           <div class="produto-custo">
-            <label for="custo" class="form-label">Custo</label>
+            <label for="custo" class="form-label">Custo (R$)</label>
             <input
-              type="number"
-              id="custo"
               v-model="produto.custo"
               class="form-control"
               step="0.01"
               placeholder="Preço de custo"
+              v-money="{ 
+                prefix: '', 
+                decimal: '.', 
+                thousands: '',
+                precision: 3 
+              }"
             />
           </div>
         </div>
@@ -79,11 +83,16 @@
                 </td>
                 <td>
                   <input
-                    type="number"
                     v-model="precosVenda.precoVenda"
                     class="form-control"
                     placeholder="Preço de venda"
                     step="0.01"
+                    v-money="{ 
+                      prefix: '', 
+                      decimal: '.', 
+                      thousands: '',
+                      precision: 3 
+                    }"
                   />
                 </td>
                 <td>

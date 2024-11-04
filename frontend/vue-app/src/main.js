@@ -6,6 +6,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import axios from 'axios'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import money from  'vuejs-money'
+
 
 
 Vue.config.productionTip = false
@@ -16,7 +18,10 @@ Vue.prototype.$axios = axios
 // Configure o axios com a baseURL
 axios.defaults.baseURL = 'http://localhost:5000';
 
-Vue.use(Toast, {
+Vue.use(money)
+
+Vue.use(
+  Toast, {
   // top-right, top-center, top-left, bottom-right, bottom-center, bottom-left.
   position: 'bottom-right',
   // place newest toast on the top
@@ -53,6 +58,7 @@ Vue.use(Toast, {
   // custom icons here
   icon: true
 })
+
 
 new Vue({
   router,

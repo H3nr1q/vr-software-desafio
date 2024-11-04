@@ -43,7 +43,7 @@
         <tr v-for="produto in produtosFiltrados" :key="produto.id">
           <td>{{ produto.id }}</td>
           <td>{{ produto.descricao }}</td>
-          <td>{{ produto.custo }}</td>
+          <td>{{ produto.custo.toString() }}</td>
           <td>
             <button class="btn btn-primary me-2" @click="$emit('editarProduto', produto)">
               <i class="bi bi-pencil"></i>
