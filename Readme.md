@@ -1,4 +1,4 @@
-# Projeto Nome
+# Desafio VR Software
 
 Este projeto consiste em uma aplicação com um backend em Flask e um frontend em Vue.js, acompanhados de testes end-to-end (E2E) com Cypress. 
 
