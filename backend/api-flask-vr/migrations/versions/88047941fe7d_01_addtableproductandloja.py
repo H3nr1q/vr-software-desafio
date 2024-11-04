@@ -23,6 +23,15 @@ def upgrade():
     sa.Column('descricao', sa.String(length=60), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+
+    ## dados iniciais tabela loja
+    op.execute("""
+        INSERT INTO loja (id, descricao) VALUES
+        (1, 'Loja 1'),
+        (2, 'Loja 2'),
+        (3, 'Loja 3')   
+    """)
+
     op.create_table('produto',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('descricao', sa.String(length=60), nullable=False),

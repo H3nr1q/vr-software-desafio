@@ -11,7 +11,6 @@ produtolojas_schema = ProdutoLojaSchema(many=True)
 
 @produtoloja_bp.route('/produtolojas/<int:produto_id>', methods=['GET'])
 def get_produto_lojas(produto_id):
-    # Busca lojas relacionadas ao produto
     produto_lojas = ProdutoLoja.query.filter_by(produto_id=produto_id).all()
     return produtolojas_schema.jsonify(produto_lojas)
 
@@ -19,7 +18,6 @@ def get_produto_lojas(produto_id):
 def add_produto_loja():
     data = request.get_json()
     
-    # Validações
     if 'produto_id' not in data or 'loja_id' not in data or 'preco_venda' not in data:
         return jsonify({"error": "Os campos 'produto_id', 'loja_id' e 'preco_venda' são obrigatórios."}), 400
     
