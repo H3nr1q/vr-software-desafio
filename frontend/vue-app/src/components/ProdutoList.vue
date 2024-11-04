@@ -3,15 +3,31 @@
     <div class="filtros">
       <div class="produto-codigo">
         <label for="codigo">Código</label>
-        <input v-model="filtros.codigo" class="form-control" placeholder="Filtrar por código" @input="filtrarProdutos" />
+        <input
+          v-model="filtros.codigo"
+          class="form-control"
+          placeholder="Filtrar por código"
+          @input="filtrarProdutos"
+        />
       </div>
       <div class="produto-descricao">
         <label for="codigo">Descrição</label>
-        <input v-model="filtros.descricao" class="form-control" placeholder="Filtrar por descrição" @input="filtrarProdutos" />
+        <input
+          v-model="filtros.descricao"
+          class="form-control"
+          placeholder="Filtrar por descrição"
+          @input="filtrarProdutos"
+        />
       </div>
       <div class="produto-custo">
         <label for="codigo">Custo</label>
-        <input v-model="filtros.custo" class="form-control" placeholder="Filtrar por custo" type="number" @input="filtrarProdutos" />
+        <input
+          v-model="filtros.custo"
+          class="form-control"
+          placeholder="Filtrar por custo"
+          type="number"
+          @input="filtrarProdutos"
+        />
       </div>
     </div>
     <table class="table table-striped">
@@ -44,16 +60,16 @@
 
 <script>
 export default {
-  props: ['produtos'],
+  props: ["produtos"],
   data() {
     return {
       filtros: {
-        codigo: '',
-        descricao: '',
-        custo: '',
-        precoVenda: ''
+        codigo: "",
+        descricao: "",
+        custo: "",
+        precoVenda: "",
       },
-      produtosFiltrados: []
+      produtosFiltrados: [],
     };
   },
   watch: {
@@ -61,12 +77,12 @@ export default {
       immediate: true,
       handler() {
         this.filtrarProdutos();
-      }
-    }
+      },
+    },
   },
   methods: {
     filtrarProdutos() {
-      this.produtosFiltrados = this.produtos.filter(produto => {
+      this.produtosFiltrados = this.produtos.filter((produto) => {
         const codigoMatch = this.filtros.codigo
           ? produto.id.toString().includes(this.filtros.codigo)
           : true;
@@ -76,36 +92,31 @@ export default {
         const custoMatch = this.filtros.custo
           ? produto.custo.toString().includes(this.filtros.custo)
           : true;
-        // const precoVendaMatch = this.filtros.precoVenda
-        //   ? produto.precos.some(preco => preco.precoVenda === parseFloat(this.filtros.precoVenda))
-        //   : true;
-
-        return codigoMatch && descricaoMatch && custoMatch; //&& precoVendaMatch;
+        return codigoMatch && descricaoMatch && custoMatch; 
       });
-
-    }
+    },
   },
   mounted() {
     this.produtosFiltrados = this.produtos;
-  }
+  },
 };
 </script>
 <style scoped>
-.filtros{
+.filtros {
   display: flex;
   justify-content: space-between;
   padding-bottom: 1%;
   padding: auto;
 }
-.produto-codigo{
+.produto-codigo {
   width: 10%;
 }
 
-.produto-descricao{
+.produto-descricao {
   width: 60%;
 }
 
-.produto-custo{
+.produto-custo {
   width: 25%;
 }
 </style>

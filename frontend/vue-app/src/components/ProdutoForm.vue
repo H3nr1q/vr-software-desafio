@@ -1,5 +1,3 @@
-<!-- src/components/ProdutoForm.vue -->
-
 <template>
   <form @submit.prevent="submit">
     <div class="produto-form-layout">
@@ -23,6 +21,8 @@
               v-model="produto.descricao"
               class="form-control"
               required
+              maxlength="60"
+              pattern="[A-Za-z0-9\s]+"
             />
           </div>
           <div class="produto-custo">
@@ -128,7 +128,7 @@ export default {
   props: ["produtoData"],
   data() {
     return {
-      codigo: "", // Para exibir o ID do produto
+      codigo: "-1", 
       produto: {
         id: "",
         descricao: "",
@@ -136,7 +136,7 @@ export default {
         precos: [],
         imagem: null,
       },
-      lojas: [], // Lista de lojas disponíveis para seleção
+      lojas: [],
       precosVenda: { lojaId: "", precoVenda: "" }, // Dados temporários para um novo preço
     };
   },
@@ -147,16 +147,11 @@ export default {
         if (newData) {
           this.produto = { ...newData };
           this.produto.imagem = newData.imagem;
-        } else {
-          this.obterProximoCodigo(); // Exibe o próximo ID para novo produto
         }
       },
     },
   },
   methods: {
-    selectFile() {
-      this.$refs.fileInput.click(); // Aciona o clique no input oculto
-    },
     async onFileChange(event) {
       const file = event.target.files[0];
       if (file) {
@@ -164,9 +159,9 @@ export default {
         if (validExtensions.includes(file.type)) {
           const reader = new FileReader();
           reader.onload = (e) => {
-            this.produto.imagem = e.target.result.split(",")[1]; // Captura apenas a parte base64
+            this.produto.imagem = e.target.result.split(",")[1];
           };
-          reader.readAsDataURL(file); // Isso inicia a leitura do arquivo como um URL de dados
+          reader.readAsDataURL(file);
         } else {
           alert("Por favor, selecione um arquivo JPG ou PNG.");
         }
@@ -180,38 +175,27 @@ export default {
         console.error("Erro ao carregar lojas:", error);
       }
     },
-    async obterProximoCodigo() {
-      if (this.produto.id) {
-        try {
-          const response = await this.$axios.get("/produto/maxId");
-          this.codigo = response.data.max_id + 1;
-        } catch (error) {
-          console.error("Erro ao obter próximo código:", error);
-        }
-      }
-    },
     adicionarPreco() {
       const loja = this.lojas.find((loja) => loja.id === this.precosVenda.lojaId);
       if (!loja || !this.precosVenda.precoVenda) {
         return alert("Selecione uma loja e insira um preço de venda válido.");
       }
-
+      
       const precoExistente = this.produto.precos.find(
         (preco) => preco.lojaId === this.precosVenda.lojaId
       );
-
+      
       if (precoExistente) {
         this.$toast.error(`Já existe um preço cadastrado para esta loja!`);
         return;
       }
-      // Adiciona o preço de venda ao produto
+
       this.produto.precos.push({
         lojaId: this.precosVenda.lojaId,
         lojaDescricao: loja.descricao,
         precoVenda: this.precosVenda.precoVenda,
       });
 
-      // Limpa o formulário temporário
       this.precosVenda = { lojaId: "", precoVenda: "" };
     },
     removerPreco(lojaId) {
@@ -241,7 +225,7 @@ export default {
       const formData = new FormData();
       formData.append("descricao", this.produto.descricao);
       formData.append("custo", this.produto.custo);
-
+      
       const byteCharacters = atob(this.produto.imagem);
       const byteNumbers = new Array(byteCharacters.length);
       for (let i = 0; i < byteCharacters.length; i++) {
@@ -249,18 +233,18 @@ export default {
       }
       const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: "image/jpeg" });
-
+      
       formData.append("imagem", blob);
-
+      
       this.produto.precos.forEach((preco) => {
-        formData.append("precos[]", JSON.stringify(preco)); // Usar 'precos[]' para enviar como uma lista
+        formData.append("precos[]", JSON.stringify(preco)); // Usei 'precos[]' para enviar como uma lista
       });
 
       try {
         const response = this.produtoData
-          ? await this.$axios.put(`/produto/${this.produtoData.id}`, formData)
-          : await this.$axios.post("/produto", formData);
-
+        ? await this.$axios.put(`/produto/${this.produtoData.id}`, formData)
+        : await this.$axios.post("/produto", formData);
+        
         if(response.status == 200){
           this.$toast.success(`Produto atualizado com sucesso!`);
         }

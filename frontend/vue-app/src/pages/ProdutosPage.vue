@@ -18,10 +18,9 @@
 
 <script>
 import ProdutoList from '@/components/ProdutoList.vue';
-import ProdutoModal from '@/components/ProdutoModal.vue';
 
 export default {
-  components: { ProdutoList, ProdutoModal },
+  components: { ProdutoList },
   data() {
     return { produtos: [] };
   },
