@@ -13,13 +13,18 @@ O backend é desenvolvido utilizando Flask para a criação da API REST, com sup
    pip install -r requirements.txt
   ```
 
-2. Execute as migrações para atualizar o banco de dados conforme o modelo já existente no repositório:
+2. Execute o comando do docker para criação do banco de dados
+  ```bash
+   docker-compose up -d
+  ```
+
+3. Execute as migrações para atualizar o banco de dados conforme o modelo já existente no repositório:
 
   ```bash
    flask db upgrade
   ```
 
-3. Iniciar aplicação backend
+4. Iniciar aplicação backend
   ```bash
    flask run
   ```
