@@ -32,6 +32,7 @@ export default {
       try {
         const response = await this.$axios.get('/produtos');
         this.produtos = response.data;
+        this.produtos.custo = this.produtos.custo.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, '.')
       } catch (error) {
         console.error('Erro ao carregar produtos:', error);
       }

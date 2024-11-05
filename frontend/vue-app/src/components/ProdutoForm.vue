@@ -34,8 +34,8 @@
               placeholder="Preço de custo"
               v-money="{ 
                 prefix: '', 
-                decimal: '.', 
-                thousands: '',
+                decimal: ',', 
+                thousands: '.',
                 precision: 3 
               }"
             />
@@ -54,7 +54,7 @@
             <tbody>
               <tr v-for="preco in produto.precos" :key="preco.lojaId">
                 <td>{{ preco.lojaDescricao }}</td>
-                <td>{{ preco.precoVenda }}</td>
+                <td>{{ preco.precoVenda.replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}</td>
                 <td>
                   <button
                     type="button"
@@ -89,8 +89,8 @@
                     step="0.01"
                     v-money="{ 
                       prefix: '', 
-                      decimal: '.', 
-                      thousands: '',
+                      decimal: ',', 
+                      thousands: '.',
                       precision: 3 
                     }"
                   />
@@ -202,7 +202,7 @@ export default {
       this.produto.precos.push({
         lojaId: this.precosVenda.lojaId,
         lojaDescricao: loja.descricao,
-        precoVenda: this.precosVenda.precoVenda,
+        precoVenda: this.precosVenda.precoVenda.replace(".", "").replace(",","."),
       });
 
       this.precosVenda = { lojaId: "", precoVenda: "" };
@@ -233,7 +233,7 @@ export default {
     async submit() {
       const formData = new FormData();
       formData.append("descricao", this.produto.descricao);
-      formData.append("custo", this.produto.custo);
+      formData.append("custo", this.produto.custo.replace(".", "").replace(",","."));
       
       const byteCharacters = atob(this.produto.imagem);
       const byteNumbers = new Array(byteCharacters.length);
@@ -268,9 +268,6 @@ export default {
   },
   async created() {
     await this.carregarLojas();
-    if (!this.produtoData) {
-      await this.obterProximoCodigo();
-    }
   },
 };
 </script>
