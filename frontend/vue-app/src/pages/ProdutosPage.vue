@@ -32,12 +32,6 @@ export default {
       try {
         const response = await this.$axios.get('/produtos');
         this.produtos = response.data;
-        this.produtos.forEach(produto => {
-        produto.custo = produto.custo
-          .toString()
-          .replace(".", ",") // Substitui o ponto decimal por uma vírgula
-          .replace(/\B(?=(\d{3})+(?!\d))/g, '.'); // Adiciona o ponto como separador de milhar
-      });
       } catch (error) {
         console.error('Erro ao carregar produtos:', error);
       }

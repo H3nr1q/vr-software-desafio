@@ -43,7 +43,7 @@
         <tr v-for="produto in produtosFiltrados" :key="produto.id">
           <td>{{ produto.id }}</td>
           <td>{{ produto.descricao }}</td>
-          <td>{{ produto.custo }}</td>
+          <td>{{ produto.custo.toString().replace(".", ",").replace(/\B(?=(\d{3})+(?!\d))/g, '.') }}</td>
           <td>
             <button class="btn btn-primary me-2" @click="$emit('editarProduto', produto)">
               <i class="bi bi-pencil"></i>
@@ -90,7 +90,7 @@ export default {
           ? produto.descricao.toLowerCase().includes(this.filtros.descricao.toLowerCase())
           : true;
         const custoMatch = this.filtros.custo
-          ? produto.custo.toString().includes(this.filtros.custo)
+          ? produto.custo.includes(this.filtros.custo)
           : true;
         return codigoMatch && descricaoMatch && custoMatch; 
       });
